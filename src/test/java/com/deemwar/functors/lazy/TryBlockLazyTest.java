@@ -1,8 +1,10 @@
-package com.deemwar.functors;
+package com.deemwar.functors.lazy;
 
+
+import com.deemwar.functors.Try;
+import com.deemwar.functors.core.TryBlock;
 import com.deemwar.functors.interfaces.SupplierWithException;
 import com.deemwar.functors.testdata.NewsService;
-
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Spy;
@@ -20,8 +22,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.doThrow;
 
 @ExtendWith(MockitoExtension.class)
-class TryTest {
-    private static final Logger log = Logger.getLogger(Try.class.getName());
+class TryBlockLazyTest {
+    private static final Logger log = Logger.getLogger(TryBlock.class.getName());
     final String topic = "somex";
 
     @Spy
@@ -32,17 +34,9 @@ class TryTest {
     public void tryWithExceptionShouldWorkEffectivelyForNoException() {
 
 
-        List<String> results = executeWithTry(this::downloadCacheData);
+        List<String> results = Try.lazy.from(this::downloadCacheData)
+                .get();
         assertThat(results, containsInAnyOrder("Cache X" + topic, "Cache Y" + topic));
-    }
-
-    @Test
-    public void tryWithExceptionShouldSetIsSuccessToBeTrue() {
-
-
-        boolean result = Try.from(this::downloadCacheData)
-                .isSuccess();
-        assertTrue(result);
     }
 
 
@@ -50,19 +44,20 @@ class TryTest {
     private List<String> downloadCacheData() throws Exception {
         return newsService.downloadCacheData(topic);
     }
+
     @Test
     public void tryWithExceptionShouldWorkForPeekIfNoException() {
 
 
         AtomicReference<String> res = new AtomicReference<>();
         AtomicReference<Throwable> resException = new AtomicReference<>();
-        Try.from((SupplierWithException<List<String>, Exception>) () -> newsService.downloadCacheData(topic))
+        Try.lazy.from((SupplierWithException<List<String>, Exception>) () -> newsService.downloadCacheData(topic))
                 .peekError(exception -> {
                     resException.set(exception);
                 })
                 .peek(strings -> {
                     res.set(strings.toString());
-                });
+                }).get();
         assertNotNull(res.get());
         assertNull(resException.get());
     }
@@ -81,10 +76,10 @@ class TryTest {
 
         AtomicReference<String> res = new AtomicReference<>();
         throwExceptionOnDownloadFromHerald();
-        Try.from(this::downloadFromHindu)
+        Try.lazy.from(this::downloadFromHindu)
                 .peek(strings -> {
                     res.set(strings.toString());
-                });
+                }).get();
 
 
         assertNull(res.get());
@@ -101,13 +96,13 @@ class TryTest {
         AtomicReference<Throwable> resException = new AtomicReference<>();
         AtomicReference<String> res = new AtomicReference<>();
         throwExceptionOnDownloadFromHerald();
-        Try.from(this::downloadFromHindu)
+        Try.lazy.from(this::downloadFromHindu)
                 .peek(items -> {
                     res.set(items.toString());
                 })
                 .peekError(exception -> {
                     resException.set(exception);
-                });
+                }).get();
 
 
         assertNotNull(resException.get());
@@ -119,20 +114,12 @@ class TryTest {
         return newsService.downloadFromHerald(topic);
     }
 
-    @Test
-    public void tryWithExceptionShouldSetIsFailureToBeTrue() throws Exception {
-        throwExceptionOnDownloadFromHerald();
-        boolean result = Try.from(this::downloadFromHindu)
-                .isFailure();
-        assertTrue(result);
-
-    }
 
     @Test
     public void tryWithExceptionShouldReturnDefaultValueOnException() throws Exception {
         throwExceptionOnDownloadFromHerald();
         final List<String> defaultValue = Arrays.asList("X", "Y");
-        List<String> results = Try.from(this::downloadFromHindu)
+        List<String> results = Try.lazy.from(this::downloadFromHindu)
                 .orElseGet(defaultValue);
         log.info("results " + results.toString());
         log.info(defaultValue.toString());
@@ -141,7 +128,7 @@ class TryTest {
     }
 
     private <T> T executeWithTry(SupplierWithException<T, Exception> parameter) {
-        return Try.from(parameter)
+        return Try.lazy.from(parameter)
                 .get();
     }
 

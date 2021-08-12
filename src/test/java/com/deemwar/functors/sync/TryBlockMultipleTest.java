@@ -1,5 +1,6 @@
-package com.deemwar.functors;
+package com.deemwar.functors.sync;
 
+import com.deemwar.functors.Try;
 import com.deemwar.functors.interfaces.SupplierWithException;
 import com.deemwar.functors.testdata.NewsService;
 
@@ -16,7 +17,7 @@ import static org.mockito.Mockito.doThrow;
 
 @ExtendWith(MockitoExtension.class)
 
-class TryMultipleTest {
+class TryBlockMultipleTest {
     final String topic = "somex";
 
     @Spy
@@ -45,6 +46,16 @@ class TryMultipleTest {
                                         .or(this::downloadCacheData)
                                             .get();
         assertThat(results, containsInAnyOrder("Cache X" + topic, "Cache Y" + topic));
+    }
+
+    @Test
+    public void tryWithExceptionShouldWorkEffectivelyForOrCaseWithDifferentParameters() throws Exception {
+        throwExceptionOnDownloadFromHindu();
+
+        List<String> results = Try.from(this::downloadFromHerald)
+                                        .or(() -> newsService.downloadFromIndianTimes(topic,78))
+                                            .get();
+        assertThat(results, containsInAnyOrder("IndianTimes X" + topic, "IndianTimes Y" + topic));
     }
 
     @Test

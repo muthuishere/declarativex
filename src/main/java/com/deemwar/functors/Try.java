@@ -1,51 +1,33 @@
 package com.deemwar.functors;
 
-import com.deemwar.functors.interfaces.*;
-import com.deemwar.functors.operators.ArgumentHolder;
+import com.deemwar.functors.core.TryBlock;
+import com.deemwar.functors.interfaces.BiFunctionWithException;
+import com.deemwar.functors.interfaces.FunctionWithException;
+import com.deemwar.functors.interfaces.SupplierWithException;
+import com.deemwar.functors.interfaces.TriFunctionWithException;
+import com.deemwar.functors.lazy.LazyBuilder;
+
 import com.deemwar.functors.path.Failure;
 import com.deemwar.functors.path.Success;
 
-
 import java.util.Arrays;
-import java.util.Optional;
-import java.util.function.Consumer;
-import java.util.logging.Logger;
+import java.util.List;
+import java.util.Objects;
+
+public class Try<I1, I2, I3, O, E extends Throwable> {
 
 
-public class Try<T> {
-
-    final T value;
-    private static final Logger log = Logger.getLogger(Try.class.getName());
-
-    public Try(T value) {
-        this.value = value;
-    }
-
-    public static <T> Try<T> empty() {
-        return new Try<>(null);
-    }
-
-    public boolean isSuccess() {
-        return null != value;
-    }
-
-    public boolean isFailure() {
-        return null == value;
-    }
-
-    public Optional<T> toOptional() {
-        return Optional.ofNullable(value);
+    public final static LazyBuilder<?,?,?,?,?> lazy = new LazyBuilder();
+    public Try(List<Object> methods) {
+        this.methods = methods;
     }
 
 
-    public Try<T> withErrorLog(String s) {
-        log.warning(s);
-        return this;
-    }
 
+    List<Object> methods;
 
-    public static <L, U extends Throwable> Try<L> from(SupplierWithException<L, U> method) {
-
+    public static <L, U extends Throwable> TryBlock<L> from(SupplierWithException<L, U> method) {
+        Objects.requireNonNull(method);
         try {
             return new Success<L>(method.get());
 
@@ -54,54 +36,54 @@ public class Try<T> {
         }
     }
 
-    public <L, U extends Throwable> Try<L> or(SupplierWithException<L, U> method) {
-            return (Try<L>) this;
-    }
+    public TryBlock<O> with(I1 arg1, I2 arg2, I3 arg3) {
+        return methods.stream()
+                .map(obj -> (TriFunctionWithException<I1, I2, I3, O, E>) obj)
+                .map(ioeFunctionWithException -> from(() -> ioeFunctionWithException.apply(arg1, arg2, arg3)))
+                .filter(oTry -> oTry.isSuccess())
+                .findFirst()
+                .orElse(TryBlock.empty());
 
-    public T getValue() {
-        return value;
-    }
-
-
-    public static <I1, I2, I3, O, E extends Throwable> ArgumentHolder<I1, I2, I3, O, E> any(TriFunctionWithException<I1, I2, I3, O, E>... methods) {
-
-        return new ArgumentHolder(Arrays.asList(methods));
 
     }
 
-    public static <I1, I2, I3, O, E extends Throwable> ArgumentHolder<I1, I2, I3, O, E> any(BiFunctionWithException<I1, I3, O, E>... methods) {
+    public TryBlock<O> with(I1 arg1, I2 arg2) {
+        return methods.stream()
+                .map(obj -> (BiFunctionWithException<I1, I2, O, E>) obj)
+                .map(ioeFunctionWithException -> from(() -> ioeFunctionWithException.apply(arg1, arg2)))
+                .filter(oTry -> oTry.isSuccess())
+                .findFirst()
+                .orElse(TryBlock.empty());
 
-        return new ArgumentHolder(Arrays.asList(methods));
 
     }
 
-    public static <I1, I2, I3, O, E extends Throwable> ArgumentHolder<I1, I2, I3, O, E> any(FunctionWithException<I1, O, E>... methods) {
+    public TryBlock<O> with(I1 arg1) {
+        return methods.stream()
+                .map(obj -> (FunctionWithException<I1, O, E>) obj)
+                .map(ioeFunctionWithException -> from(() -> ioeFunctionWithException.apply(arg1)))
+                .filter(oTry -> oTry.isSuccess())
+                .findFirst()
+                .orElse(TryBlock.empty());
 
-        return new ArgumentHolder(Arrays.asList(methods));
 
     }
 
+    public static <I1, I2, I3, O, E extends Throwable> Try<I1, I2, I3, O, E> any(TriFunctionWithException<I1, I2, I3, O, E>... methods) {
 
-    public T orElseGet(T o) {
-        return isSuccess() ? value : o;
-
-    }
-
-    public T get() {
-        return isSuccess() ? value : null;
+        return new Try(Arrays.asList(methods));
 
     }
 
-    public Try<T> peekError(Consumer<Throwable> s) {
-        return this;
+    public static <I1, I2, I3, O, E extends Throwable> Try<I1, I2, I3, O, E> any(BiFunctionWithException<I1, I3, O, E>... methods) {
+
+        return new Try(Arrays.asList(methods));
+
     }
 
-    public <M extends Throwable, L, E extends Throwable> Try<T> onError(Class<M> currentException, SupplierWithException<T, E> s) {
-        return this;
-    }
+    public static <I1, I2, I3, O, E extends Throwable> Try<I1, I2, I3, O, E> any(FunctionWithException<I1, O, E>... methods) {
 
+        return new Try(Arrays.asList(methods));
 
-    public Try<T> peek(Consumer<T> s) {
-        return this;
     }
 }

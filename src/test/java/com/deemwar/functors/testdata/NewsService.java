@@ -2,6 +2,7 @@ package com.deemwar.functors.testdata;
 
 
 import com.deemwar.functors.Try;
+import com.deemwar.functors.core.TryBlock;
 
 import org.junit.jupiter.api.Test;
 
@@ -86,7 +87,7 @@ class Either
 
 
 public class NewsService {
-    private static final Logger log = Logger.getLogger(Try.class.getName());
+    private static final Logger log = Logger.getLogger(TryBlock.class.getName());
 
     public List<String> getNewsRelatedTo(String topic) {
 
@@ -145,6 +146,20 @@ public class NewsService {
         List<String> news = new ArrayList<>();
         news.add("Herald X" + topic);
         news.add("Herald Y" + topic);
+        return news;
+    }
+
+    public  List<String> downloadFromSun(String topic) throws Exception {
+        List<String> news = new ArrayList<>();
+        news.add("Sun X" + topic);
+        news.add("Sun Y" + topic);
+        return news;
+    }
+
+    public  List<String> downloadFromIndianTimes(String topic, Integer serverLocation) throws Exception {
+        List<String> news = new ArrayList<>();
+        news.add("IndianTimes X" + topic);
+        news.add("IndianTimes Y" + topic);
         return news;
     }
 
