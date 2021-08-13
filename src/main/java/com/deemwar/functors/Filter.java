@@ -1,58 +1,107 @@
 package com.deemwar.functors;
 
+import com.deemwar.functors.core.TryBlock;
 import com.deemwar.functors.interfaces.SupplierWithException;
-import com.deemwar.functors.path.False;
-import com.deemwar.functors.path.True;
+import com.deemwar.functors.conditions.False;
+import com.deemwar.functors.conditions.True;
+import com.deemwar.functors.interfaces.VoidConsumer;
 
 import java.util.Optional;
+import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-public abstract class Filter<T> {
+public  class Filter<T> {
 
-    protected Try<T> function;
-    private boolean value;
+    protected TryBlock<T> function;
+    private boolean result;
 
 
-    public Filter(boolean value, Try<T> function) {
-        this.value = value;
+    public Filter(boolean result, TryBlock<T> function) {
+        this.result = result;
         this.function = function;
     }
 
-
-
-
-    public static Filter If(Supplier<Boolean> method) {
-            if(method.get())
-                return new True();
-            else
-                return new False();
+    public Filter() {
 
     }
 
-    public Try<T> toTryWithException(){
+
+    public static Filter<?> If(Supplier<Boolean> method) {
+            if(method.get())
+                return new True<>();
+            else
+                return new False<>();
+
+    }
+
+    public TryBlock<T> toTryWithException(){
         return function;
+
     }
 
     public T get(){
-        return function.getValue();
+        return orElseGet(null);
+    }
+
+    public void execute(){
+        orElseGet(null);
+    }
+    public T orElseGet(T defaultValue){
+        return toOptional()
+                        .orElse(defaultValue);
     }
 
 
     public Optional<T> toOptional(){
-        return function.toOptional();
+        return Optional.ofNullable(function)
+                .map(fn->fn.getValue());
     }
 
 
-    public <L, E extends Throwable> Filter<T> then(SupplierWithException<T, E> method) {
+    public <L, E extends Throwable> Filter<L> then(SupplierWithException<L, E> method) {
+
+        return (Filter<L>) this;
+
+    }
+
+    public <L, E extends Throwable> Filter<L> thenDo(VoidConsumer val) {
+
+
+        return then(()->{
+            val.accept();
+            return null;
+        });
+
+    }
+    public <L, E extends Throwable> Filter<L> elseDo(VoidConsumer val) {
+
+
+        return (Filter<L>) this;
+
+    }
+    public <L, E extends Throwable> Filter<L> then(L val) {
+
+        return then(()->val);
+
+    }
+
+
+
+    public void displayFinalValue(){
+
+    }
+
+    public  <L, E extends Throwable> Filter<T> elseThen(TryBlock<T> tryBlock){
         return this;
-
     }
 
-    public  <L, E extends Throwable> Filter<T> elseThen(Try<T> tryBlock){
-        return this;
+    public  <L, E extends Throwable> Filter<T> elseThen(T val){
+        return elseThen(()->val);
     }
 
-    public Filter elseIf(Supplier<Boolean> method) {
+
+
+    public Filter<?> elseIf(Supplier<Boolean> method) {
         return this;
     }
 
@@ -62,7 +111,7 @@ public abstract class Filter<T> {
     }
 
 
-    public  <L, E extends Throwable> Filter<T> then(Try<T> tryBlock){
+    public  <L, E extends Throwable> Filter<T> then(TryBlock<T> tryBlock){
         return this;
     };
 }
