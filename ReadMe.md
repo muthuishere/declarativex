@@ -14,21 +14,21 @@ Maven
 
 ```
         <dependency>
-            <groupId>com.deemwar</groupId>
-            <artifactId>functors</artifactId>
+            <groupId>io.github.muthuishere</groupId>
+            <artifactId>declarativex</artifactId>
             <version>1.0</version>
         </dependency>
 ```
     
 Gradle
 ```
-implementation "com.deemwar:functors:1.0"
+implementation "io.github.muthuishere:declarativex:1.0"
 ```
 
 Usage
 ```
-import com.deemwar.declarativex.Try;
-import com.deemwar.declarativex.Filter;
+import declarativex.Try;
+import declarativex.Filter;
 
 
 
@@ -63,7 +63,7 @@ List<String> results = null;
 <b>Write This</b>
  
  ```
-import com.deemwar.declarativex.Try;
+import declarativex.Try;
 
         results= Try.from(()->newsService.downloadFromNyTimes(topic))
                         .or(()->newsService.downloadFromHerald(topic))
@@ -117,7 +117,7 @@ results = Try.lazy.from(this::downloadCacheData)
 <b>Write This</b>
 
 ```
-import com.deemwar.declarativex.Filter
+import declarativex.Filter
 
 
 result = Filter.If(() -> age > 60)
