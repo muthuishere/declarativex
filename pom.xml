@@ -55,7 +55,7 @@
     <scm>
         <connection>scm:git:git://github.com:muthuishere/functors.git</connection>
         <developerConnection>scm:git:git@github.com:muthuishere/functors.git</developerConnection>
-        <url>https://github.com/muthuishere/functors/tree/master</url>
+        <url>https://github.com/muthuishere/functors/tree/main</url>
 
     </scm>
 
