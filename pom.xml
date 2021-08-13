@@ -4,13 +4,13 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.deemwar</groupId>
-    <artifactId>functors</artifactId>
+    <groupId>io.github.muthuishere</groupId>
+    <artifactId>declarativex</artifactId>
     <version>1.0-SNAPSHOT</version>
 
-    <name>Declarative Functors</name>
-    <description>A set of functional monads to support declarative programming</description>
-    <url>https://github.com/muthuishere/functors</url>
+    <name>Declarative X</name>
+    <description>A set of declarative utilities for Exception Handling and Conditions</description>
+    <url>https://github.com/muthuishere/declarativex</url>
     <licenses>
         <license>
             <name>The Apache Software License, Version 2.0</name>
@@ -30,16 +30,6 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
-<!--    <distributionManagement>-->
-<!--        <snapshotRepository>-->
-<!--            <id>ossrh</id>-->
-<!--            <url>https://oss.sonatype.org/content/repositories/snapshots</url>-->
-<!--        </snapshotRepository>-->
-<!--        <repository>-->
-<!--            <id>ossrh</id>-->
-<!--            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>-->
-<!--        </repository>-->
-<!--    </distributionManagement>-->
     <distributionManagement>
         <snapshotRepository>
             <id>ossrh</id>
@@ -53,9 +43,9 @@
 
 
     <scm>
-        <connection>scm:git:git://github.com:muthuishere/functors.git</connection>
-        <developerConnection>scm:git:git@github.com:muthuishere/functors.git</developerConnection>
-        <url>https://github.com/muthuishere/functors/tree/main</url>
+        <connection>scm:git:git://github.com:muthuishere/declarativex.git</connection>
+        <developerConnection>scm:git:git@github.com:muthuishere/declarativex.git</developerConnection>
+        <url>https://github.com/muthuishere/declarativex/tree/main</url>
 
     </scm>
 

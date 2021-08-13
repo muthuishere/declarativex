@@ -1,18 +1,38 @@
-###Declarative Functors 
-###### Adding Functional Programming made declarative
+###DeclarativeX
+###### Functional Programming made declarative in a better way
 
-A set of functional monads to support your declarative programming easier.
+A Fluent Style Library to ease declarative programming.
+
 
  
 * [Try](#Try)
-* [Filter](###Filter)
+* [Filter](#Filter)
 
 ### Install
 
 Maven
+
+```
+        <dependency>
+            <groupId>com.deemwar</groupId>
+            <artifactId>functors</artifactId>
+            <version>1.0</version>
+        </dependency>
+```
     
 Gradle
+```
+implementation "com.deemwar:functors:1.0"
+```
 
+Usage
+```
+import com.deemwar.declarativex.Try;
+import com.deemwar.declarativex.Filter;
+
+
+
+```
 
 
 ### Try
@@ -43,7 +63,7 @@ List<String> results = null;
 <b>Write This</b>
  
  ```
-import com.deemwar.functors.Try;
+import com.deemwar.declarativex.Try;
 
         results= Try.from(()->newsService.downloadFromNyTimes(topic))
                         .or(()->newsService.downloadFromHerald(topic))
@@ -97,7 +117,7 @@ results = Try.lazy.from(this::downloadCacheData)
 <b>Write This</b>
 
 ```
-import com.deemwar.functors.Filter
+import com.deemwar.declarativex.Filter
 
 
 result = Filter.If(() -> age > 60)
