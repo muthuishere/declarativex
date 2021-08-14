@@ -8,21 +8,20 @@ A Fluent Style Library to ease declarative programming.
 * [Try](#Try)
 * [Filter](#Filter)
 
-### Install
+#### Install
 
 Maven
 
 ```
         <dependency>
             <groupId>io.github.muthuishere</groupId>
-            <artifactId>declarativex</artifactId>
-            <version>1.0</version>
+            <artifactId>declarativex</artifactId>            
         </dependency>
 ```
     
 Gradle
 ```
-implementation "io.github.muthuishere:declarativex:1.0"
+implementation "io.github.muthuishere:declarativex"
 ```
 
 Usage
@@ -35,7 +34,7 @@ import declarativex.Filter;
 ```
 
 
-### Try
+## Try
 <b>Instead of Writing This</b> 
 
 ```
@@ -95,7 +94,7 @@ results = Try.lazy.from(this::downloadCacheData)
 ``` 
 
 
-###Filter
+##Filter
 <b>Instead of Writing This</b>
 
 ```
@@ -116,23 +115,6 @@ results = Try.lazy.from(this::downloadCacheData)
 
 <b>Write This</b>
 
-```
-import declarativex.Filter
-
-
-result = Filter.If(() -> age > 60)
-                .then(() -> "Can Retire")
-                .elseIf(() -> age > 40)
-                .then(() -> "Can Go World Tour")
-                .elseIf(() -> age > 32)
-                .then(() -> "Can Go for Job")
-                .elseIf(() -> age > 18)
-                .then(() -> "Can Go To College")
-                .elseThen(() -> "Can Play")
-                .get();
-```
- 
-<b>Or even Better </b>
 ```
  result = Filter.If(() -> age > 60)
                 .then("Can Retire")
