@@ -1,6 +1,7 @@
 package declarativex.delivery.trycatch;
 
 import declarativex.Try;
+import declarativex.Filter;
 import declarativex.delivery.AppLog;
 import declarativex.testdata.NewsService;
 import org.junit.jupiter.api.Test;
