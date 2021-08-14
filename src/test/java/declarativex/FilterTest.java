@@ -1,14 +1,18 @@
 package declarativex;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 
 
+@ExtendWith(MockitoExtension.class)
 class FilterTest {
+
 
     @ParameterizedTest
     @CsvSource({"23,Can Vote","15,Cannot Vote"})
