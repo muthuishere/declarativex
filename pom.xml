@@ -6,7 +6,7 @@
 
     <groupId>io.github.muthuishere</groupId>
     <artifactId>declarativex</artifactId>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
 
     <name>Declarative X</name>
     <description>A set of declarative utilities for Exception Handling and Conditions</description>
