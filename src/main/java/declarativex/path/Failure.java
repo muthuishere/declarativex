@@ -24,7 +24,7 @@ public class Failure<T> extends TryBlock<T> {
     }
 
 
-    public <M extends Throwable, L, E extends Throwable> TryBlock<T> onError(Class<M> currentException, SupplierWithException<T, E> s) {
+    public <M extends Throwable, L, E extends Throwable> TryBlock<T> on(Class<M> currentException, SupplierWithException<T, E> s) {
         return exception.getClass().equals(currentException) ? or(s) : this;
     }
     public <L, U extends Throwable> TryBlock<L> or(SupplierWithException<L, U> method) {

@@ -26,8 +26,7 @@ public class TryLazyBlock<T> {
         rules.put(Operation.SUPPLIER,this::onExecuteSupplier);
         rules.put(Operation.PEEK,this::onPeek);
         rules.put(Operation.PEEKERROR,this::onPeekError);
-        rules.put(Operation.ERRORLOG,this::onErrorLog);
-        rules.put(Operation.ONERROR,this::onError);
+        rules.put(Operation.ONERROR,this::on);
 
     }
 
@@ -40,12 +39,6 @@ public class TryLazyBlock<T> {
         return Optional.ofNullable(get());
     }
 
-
-    public TryLazyBlock<T> withErrorLog(String s) {
-
-        put(Operation.ERRORLOG, s);
-        return this;
-    }
 
 
     private void put(Operation operation, Object method) {
@@ -77,9 +70,9 @@ public class TryLazyBlock<T> {
 
     }
 
-    public <U extends Throwable, E extends Throwable> TryBlock<T> onError(TryBlock<T> lazyResult, LazyRequest entry) {
+    public <U extends Throwable, E extends Throwable> TryBlock<T> on(TryBlock<T> lazyResult, LazyRequest entry) {
         OnErrorRequest<E, T, U> consumer = (OnErrorRequest<E, T, U>) entry.getValue();
-        lazyResult = lazyResult.onError(consumer.getCurrentException(), consumer.getS());
+        lazyResult = lazyResult.on(consumer.getCurrentException(), consumer.getS());
         return lazyResult;
     }
 
@@ -89,11 +82,7 @@ public class TryLazyBlock<T> {
         return lazyResult;
     }
 
-    public TryBlock<T> onErrorLog(TryBlock<T> lazyResult, LazyRequest entry) {
-        String consumer = (String) entry.getValue();
-        lazyResult = lazyResult.withErrorLog(consumer);
-        return lazyResult;
-    }
+
 
 
 
@@ -118,11 +107,11 @@ public class TryLazyBlock<T> {
         return this;
     }
 
-    public <M extends Throwable, L, E extends Throwable> TryLazyBlock<T> onError(Class<M> currentException, SupplierWithException<T, E> s) {
-        return onError(new OnErrorRequest<>(currentException, s));
+    public <M extends Throwable, L, E extends Throwable> TryLazyBlock<T> on(Class<M> currentException, SupplierWithException<T, E> s) {
+        return on(new OnErrorRequest<>(currentException, s));
     }
 
-    public <M extends Throwable, L, E extends Throwable> TryLazyBlock<T> onError(OnErrorRequest<E, T, M> onErrorRequest) {
+    public <M extends Throwable, L, E extends Throwable> TryLazyBlock<T> on(OnErrorRequest<E, T, M> onErrorRequest) {
 
         put(Operation.ONERROR, onErrorRequest);
         return this;

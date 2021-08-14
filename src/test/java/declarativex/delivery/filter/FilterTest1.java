@@ -85,7 +85,9 @@ public class FilterTest1 {
             "8,Can Play"})
     public void ageandActivityOpt2(int age, String expected) {
 
-        String result = Filter.If(() -> age > 60)
+        String result=null;
+
+        result = Filter.If(() -> age > 60)
                 .then("Can Retire")
                 .elseIf(() -> age > 40)
                 .then("Can Go World Tour")

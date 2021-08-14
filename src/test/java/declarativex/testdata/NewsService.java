@@ -99,20 +99,6 @@ public class NewsService {
 
     }
 
-    public List<String> getNewsRelatedToOption1(String topic) {
-
-
-        return Try.from(() -> this.downloadFromNyTimes(topic))
-                .withErrorLog("Unable to download ny times")
-                .or(() -> this.downloadFromHerald(topic))
-                .withErrorLog("Unable to download Hindu")
-                .peek(strings -> log.info("Downloaded"+strings))
-                .or(() -> this.downloadCacheData(topic))
-                .orElseGet(null);
-
-
-    }
-
 
     public List<String> getNewsRelatedToOld(String topic) {
         List<String> contents = null;

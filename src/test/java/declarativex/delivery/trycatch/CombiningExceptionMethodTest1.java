@@ -30,19 +30,16 @@ public class CombiningExceptionMethodTest1 {
         try {
             results =newsService.downloadFromNyTimes(topic);
         }catch (Exception e){
-
             try {
-
                 results =newsService.downloadFromHerald(topic);
             }catch (Exception e1){
                 try {
                     results =newsService.downloadFromSun(topic);
-                }catch (Exception e2){
-
-
+                }catch (Exception ignored){
                 }
             }
         }
+
         System.out.println(results.toString());
         assertResults(results, "Sun Xsearch,Sun Ysearch");
 
@@ -64,6 +61,7 @@ public class CombiningExceptionMethodTest1 {
                         .or(()->newsService.downloadFromHerald(topic))
                         .or(()->newsService.downloadFromSun(topic))
                         .get();
+
         System.out.println(results.toString());
         assertResults(results, "Sun Xsearch,Sun Ysearch");
 
@@ -82,6 +80,7 @@ public class CombiningExceptionMethodTest1 {
                          newsService::downloadFromSun)
                         .with(topic)
                         .get();
+
         System.out.println(results.toString());
         assertResults(results, "Sun Xsearch,Sun Ysearch");
 

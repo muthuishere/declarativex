@@ -74,8 +74,8 @@ class TryBlockMultipleTest {
 
 
         List<String> results = Try.from(this::downloadFromHerald)
-                                        .onError(IllegalArgumentException.class,()->newsService.downloadFromNyTimes(topic))
-                                        .onError(IllegalAccessException.class,()->newsService.downloadCacheData(topic))
+                                        .on(IllegalArgumentException.class,()->newsService.downloadFromNyTimes(topic))
+                                        .on(IllegalAccessException.class,()->newsService.downloadCacheData(topic))
                                         .get();
         assertThat(results, containsInAnyOrder("NY X" + topic, "NY Y" + topic));
     }
@@ -86,8 +86,8 @@ class TryBlockMultipleTest {
         doThrow(new IllegalAccessException("Invalid Topic")).when(newsService).downloadFromHerald(topic);
 
         List<String> results = Try.from(this::downloadFromHerald)
-                                        .onError(IllegalArgumentException.class,()->newsService.downloadFromNyTimes(topic))
-                                        .onError(IllegalAccessException.class,()->newsService.downloadCacheData(topic))
+                                        .on(IllegalArgumentException.class,()->newsService.downloadFromNyTimes(topic))
+                                        .on(IllegalAccessException.class,()->newsService.downloadCacheData(topic))
                                         .get();
         assertThat(results, containsInAnyOrder("Cache X" + topic, "Cache Y" + topic));
     }

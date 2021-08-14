@@ -46,7 +46,6 @@ public class ExceptionLoggingTest3 {
         }catch (Exception e){
             log.error(e);
             try {
-
                 results =newsService.downloadFromHerald(topic);
             }catch (Exception e1){
                 log.error(e);
@@ -54,8 +53,6 @@ public class ExceptionLoggingTest3 {
                     results =newsService.downloadFromSun(topic);
                 }catch (Exception e2){
                     log.error(e);
-
-
                 }
             }
         }

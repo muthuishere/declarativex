@@ -66,7 +66,7 @@ public class TryBlock<T> {
         return this;
     }
 
-    public <M extends Throwable, L, E extends Throwable> TryBlock<T> onError(Class<M> currentException, SupplierWithException<T, E> s) {
+    public <M extends Throwable, L, E extends Throwable> TryBlock<T> on(Class<M> currentException, SupplierWithException<T, E> s) {
         return this;
     }
 

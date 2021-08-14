@@ -76,14 +76,12 @@ public class BasedOnErrorClassTest2 {
         try {
             results =newsService.downloadFromNyTimes(topic);
         }catch (IllegalArgumentException e){
-
             try {
                 results =newsService.downloadFromHerald(topic);
             }catch (Exception e1){
 
             }
         }catch (IllegalAccessException e){
-
             try {
                 results =newsService.downloadFromSun(topic);
             }catch (Exception e1){
@@ -100,8 +98,8 @@ public class BasedOnErrorClassTest2 {
         List<String> results = null;
 
         results= Try.from(()->newsService.downloadFromNyTimes(topic))
-                        .onError(IllegalArgumentException.class,()->newsService.downloadFromHerald(topic))
-                        .onError(IllegalAccessException.class,()->newsService.downloadFromSun(topic))
+                        .on(IllegalArgumentException.class,()->newsService.downloadFromHerald(topic))
+                        .on(IllegalAccessException.class,()->newsService.downloadFromSun(topic))
                         .get();
         return results;
     }
