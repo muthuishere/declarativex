@@ -1,14 +1,23 @@
-###DeclarativeX
-###### Functional Programming made declarative in a better way
-
-A Fluent Style Library to ease declarative programming.
+### DeclarativeX
+######  A Composable approach to exception & conditions in Java
 
 
- 
-* [Try](#Try)
-* [Filter](#Filter)
 
-#### Install
+
+![Composing Exceptions with DeclarativeX](https://github.com/muthuishere/declarativex-example/blob/main/assets/withthis1.png?raw=true)
+
+----
+
+
+![Composing Exceptions with DeclarativeX for same parameters](https://github.com/muthuishere/declarativex-example/blob/main/assets/withthis2.png?raw=true)
+
+----
+
+![On Error](https://github.com/muthuishere/declarativex-example/blob/main/assets/onerror3.png?raw=true)
+
+----
+
+![On Filter](https://github.com/muthuishere/declarativex-example/blob/main/assets/condition5.png?raw=true)
 
 Maven
 
@@ -94,7 +103,7 @@ results = Try.lazy.from(this::downloadCacheData)
 ``` 
 
 
-##Filter
+## Filter
 <b>Instead of Writing This</b>
 
 ```
