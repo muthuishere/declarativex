@@ -7,6 +7,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Arrays;
 import java.util.List;
 
 import static declarativex.delivery.Assertions.assertResults;
@@ -62,6 +63,14 @@ public class CombiningExceptionMethodTest1 {
                         .or(()->newsService.downloadFromSun(topic))
                         .get();
 
+        // since the for the above case it will be null
+
+        // if you would like to get default value
+        results= Try.from(()->newsService.downloadFromNyTimes(topic))
+                .or(()->newsService.downloadFromHerald(topic))
+                .or(()->newsService.downloadFromSun(topic))
+                .orElseGet(Arrays.asList("Topic x","Topic Y"));
+
         System.out.println(results.toString());
         assertResults(results, "Sun Xsearch,Sun Ysearch");
 
@@ -80,6 +89,9 @@ public class CombiningExceptionMethodTest1 {
                          newsService::downloadFromSun)
                         .with(topic)
                         .get();
+
+
+
 
         System.out.println(results.toString());
         assertResults(results, "Sun Xsearch,Sun Ysearch");
