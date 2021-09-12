@@ -33,11 +33,6 @@ public  class Filter<T> {
 
     }
 
-    public TryBlock<T> toTryWithException(){
-        return function;
-
-    }
-
     public T get(){
         return orElseGet(null);
     }
