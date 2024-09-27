@@ -17,9 +17,6 @@
 
 ![On Error](https://github.com/muthuishere/declarativex-example/blob/main/assets/onerror3.png?raw=true)
 
-----
-
-![On Filter](https://github.com/muthuishere/declarativex-example/blob/main/assets/condition5.png?raw=true)
 
 Maven
 
