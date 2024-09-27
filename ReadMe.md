@@ -101,39 +101,3 @@ results = Try.lazy.from(this::downloadCacheData)
 
 ``` 
 
-
-## Filter
-<b>Instead of Writing This</b>
-
-```
-
-        if (age > 60) {
-            result = "Can Retire";
-        } else if (age > 40) {
-            result = "Can Go World Tour";
-        } else if (age > 32) {
-            result = "Can Go for Job";
-        } else if (age > 18) {
-            result = "Can Go To College";
-        } else {
-            result = "Can Play";
-        }
-
-``` 
-
-<b>Write This</b>
-
-```
- result = Filter.If(() -> age > 60)
-                .then("Can Retire")
-                .elseIf(() -> age > 40)
-                .then("Can Go World Tour")
-                .elseIf(() -> age > 32)
-                .then("Can Go for Job")
-                .elseIf(() -> age > 18)
-                .then("Can Go To College")
-                .elseThen("Can Play")
-                .get();
-
-```
-
